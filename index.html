@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FrostCraft - 坚守原版生存，不魔改游戏机制，支持Java基岩双端互通、假人辅助及语音聊天，红石/生电玩法完整保留，可自由搭建自动化农场、刷怪塔与工业体系，养老休闲、技术钻研两相宜。" />
+    <title>FrostCraft丨纯净生存服务器</title>
+    <link rel="icon" href="./img/icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" as="style" />
+    <link rel="preload" href="./img/banner.webp" as="image" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-white">
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-['Pacifico'] text-blue-600">FrostCraft</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-800 hover:text-blue-600 font-medium">特色</a>
+                    <a href="#ip" class="text-gray-800 hover:text-blue-600 font-medium">服务器IP</a>
+                    <a href="#server-status" class="text-gray-800 hover:text-blue-600 font-medium">实时状态</a>
+                    <a href="#advantages" class="text-gray-800 hover:text-blue-600 font-medium">优势</a>
+                    <a href="#rules" class="text-gray-800 hover:text-blue-600 font-medium">规则</a>
+                    <a href="#team" class="text-gray-800 hover:text-blue-600 font-medium">团队</a>
+                    <a href="#faq" class="text-gray-800 hover:text-blue-600 font-medium">常见问题</a>
+                </div>
+                <div class="flex items-center">
+                    <button id="menuToggle" class="md:hidden text-gray-700 hover:text-blue-600 text-2xl p-1 rounded-lg transition-colors" aria-label="切换导航菜单" aria-expanded="false">
+                        <i class="fas fa-bars" id="menuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobileMenu" role="dialog" aria-modal="true" aria-label="导航菜单" aria-hidden="true">
+        <div class="menu-overlay" id="menuOverlay"></div>
+        <div class="menu-panel">
+            <div class="menu-header">
+                <button class="menu-close-btn" id="menuCloseBtn" aria-label="关闭菜单">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="menu-links">
+                <a href="#features">特色</a>
+                <a href="#ip">服务器IP</a>
+                <a href="#server-status">实时状态</a>
+                <a href="#advantages">优势</a>
+                <a href="#rules">规则</a>
+                <a href="#team">团队</a>
+                <a href="#faq">常见问题</a>
+            </nav>
+            <div class="menu-footer">
+                <button class="menu-copy-btn" id="menuCopyBtn">
+                    <i class="far fa-copy"></i> 复制服务器地址
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero-section min-h-screen flex items-center text-white" style="background-image: url('./img/banner.webp'); background-size: cover; background-position: center;">
+        <div class="max-w-7xl w-full mx-auto px-4 pt-20">
+            <div class="hero-copy max-w-3xl">
+                <p class="text-sm md:text-base uppercase tracking-[0.18em] text-blue-100 font-semibold mb-5">Java & Bedrock · 原版生存 · 公益服务器</p>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">FrostCraft</h1>
+                <p class="text-xl md:text-2xl mb-8 font-medium text-blue-50 leading-relaxed">坚守原版生存，不魔改游戏机制，支持Java基岩双端互通、假人辅助及语音聊天，红石/生电玩法完整保留，可自由搭建自动化农场、刷怪塔与工业体系，养老休闲、技术钻研两相宜。</p>
+                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                    <a href="#ip" class="!rounded-button bg-blue-600 text-white px-8 py-3 text-lg whitespace-nowrap shadow-lg hover:bg-blue-700 transition text-center font-semibold">开始冒险</a>
+                    <a href="https://docs.qq.com/aio/DZHdYQUxJaE5ZS2Zq" target="_blank" rel="noopener noreferrer" class="!rounded-button bg-white/15 text-white border border-white/30 px-8 py-3 text-lg whitespace-nowrap hover:bg-white/25 transition text-center font-semibold backdrop-blur">帮助文档</a>
+                </div>
+                <div class="hero-meta flex flex-wrap gap-3 text-sm md:text-base">
+                    <span><i class="fas fa-server mr-2"></i>中国移动企业专线</span>
+                    <span><i class="fas fa-mobile-alt mr-2"></i>支持手机版</span>
+                    <span><i class="fas fa-heart mr-2"></i>为爱发电</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-14">
+                <p class="text-blue-600 font-semibold mb-2">为什么值得留下来</p>
+                <h2 class="text-4xl font-bold text-gray-900">服务器特色</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <img src="./img/bot.webp" loading="lazy" class="w-full h-48 object-cover rounded-lg mb-6" alt="特色功能 挂机假人" />
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">挂机假人</h3>
+                    <p class="text-gray-700 leading-relaxed">即便玩家下线，建造的机器也可持续运行。</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <img src="./img/mc.webp" loading="lazy" class="w-full h-48 object-cover rounded-lg mb-6" alt="特色功能 强劲性能" />
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">强劲性能</h3>
+                    <p class="text-gray-700 leading-relaxed">即便是大型高频红石机器，服务器也能轻松运行。</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <img src="./img/geyser.webp" loading="lazy" class="w-full h-48 object-cover rounded-lg mb-6" alt="特色功能 双端支持" />
+                    <h3 class="text-xl font-bold mb-4 text-gray-900">双端支持</h3>
+                    <p class="text-gray-700 leading-relaxed">支持java和基岩双端，手机电脑均可加入。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ip">
+        <div class="join-section bg-blue-50 px-4 text-center py-20">
+            <h2 class="text-4xl font-bold mb-8 text-gray-900">服务器地址</h2>
+            <div class="inline-flex flex-col sm:flex-row items-center gap-4 bg-white px-8 py-5 rounded-lg shadow-sm border border-blue-100">
+                <span id="ip-text" class="text-2xl font-mono font-bold text-gray-800">mc233.xin</span>
+                <button id="copy-ip" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all whitespace-nowrap shadow-md flex items-center gap-1 font-medium" aria-label="复制服务器地址">
+                    <i class="far fa-copy"></i> 复制
+                </button>
+            </div>
+            <div class="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 text-left">
+                <div class="bg-white rounded-lg p-5 border border-blue-100 shadow-sm">
+                    <p class="text-sm text-gray-500 mb-1">QQ频道</p>
+                    <a href="https://pd.qq.com/s/225mgho79?b=9" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800 hover:underline block">orwoe12345</a>
+                </div>
+                <div class="bg-white rounded-lg p-5 border border-blue-100 shadow-sm">
+                    <p class="text-sm text-gray-500 mb-1">QQ群</p>
+                    <a href="https://qm.qq.com/q/2PN2XU4rAI" class="font-semibold text-blue-600 hover:text-blue-800 hover:underline block">1087591777</a>
+                </div>
+                <div class="bg-white rounded-lg p-5 border border-blue-100 shadow-sm">
+                    <p class="text-sm text-gray-500 mb-1">文档</p>
+                    <a href="https://docs.qq.com/aio/DZHdYQUxJaE5ZS2Zq" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-600 hover:text-blue-800 hover:underline block">点我可以直接打开文档</a>
+                </div>
+            </div>
+            <p class="mt-6 text-gray-700 font-medium">祝你玩的开心^_^</p>
+        </div>
+    </section>
+
+    <section id="server-status" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-6 text-gray-900">
+                <i class="fas fa-chart-line text-blue-600 mr-2"></i>
+                服务器实时状态
+            </h2>
+            <p class="text-center text-gray-700 mb-10">这个板块bug太多,正在考虑删除-_-</p>
+            <div class="max-w-3xl mx-auto">
+                <div id="statusCard" class="status-card bg-gray-50 rounded-2xl shadow-xl overflow-hidden border border-gray-300">
+                    <div class="bg-white px-6 py-4 border-b border-gray-300 flex flex-wrap justify-between items-center gap-3">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-server text-blue-600 text-xl"></i>
+                            <span class="font-mono font-bold text-gray-900">mc233.xin</span>
+                            <span class="text-xs bg-gray-300 text-gray-800 px-2 py-1 rounded-full">Java版</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span id="lastUpdateTime" class="text-xs text-gray-600 flex items-center gap-1">
+                                <i class="far fa-clock"></i> 等待检测...
+                            </span>
+                            <button id="manualRefreshBtn" class="text-blue-700 hover:text-blue-800 transition text-sm bg-blue-100 px-3 py-1.5 rounded-full flex items-center gap-1 font-medium shadow-sm" aria-label="手动刷新服务器状态">
+                                <i class="fas fa-sync-alt" id="refreshIcon"></i>
+                                <span>刷新</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="statusContent" class="p-6" aria-live="polite" aria-atomic="true">
+                    </div>
+                </div>
+                <div class="text-center text-xs text-gray-600 mt-4 flex justify-center gap-4 flex-wrap">
+                    <span><i class="fab fa-java text-blue-600"></i> Java版状态实时监测</span>
+                    <span><i class="fas fa-mobile-alt text-blue-600"></i> 基岩版使用相同地址: mc233.xin (端口19132)</span>
+                    <span><i class="fas fa-users text-blue-600"></i> geyser插件使双端玩家同服在线</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="advantages" class="py-12 bg-white">
+        <div class="max-w-[1440px] mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-900">为什么选择我们？</h2>
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-4">
+                <div class="text-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-server text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">高性能服务器</h3>
+                    <p class="text-gray-700 leading-relaxed">采用英特尔® 酷睿™ i7-11700K 处理器，确保游戏流畅运行，支持同时在线 114514 玩家</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">完善的防护系统</h3>
+                    <p class="text-gray-700 leading-relaxed">先进的反作弊系统，严格的权限管理，保护每位玩家的游戏体验</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-headset text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">友善社区</h3>
+                    <p class="text-gray-700 leading-relaxed">和谐友爱的社区环境，遇到困难可向他人求助，同时对恶意玩家严惩不贷</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-sync text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">定期更新内容</h3>
+                    <p class="text-gray-700 leading-relaxed">定期更新游戏版本，删除陈旧区块，带来全新游戏体验</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rules" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">服务器规则</h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <ul class="space-y-4 text-lg">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-600 mr-3 text-2xl"></i><span class="text-gray-800">尊重他人成果，杜绝擅自取用</span></li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-600 mr-3 text-2xl"></i><span class="text-gray-800">零容忍作弊行为</span></li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-600 mr-3 text-2xl"></i><span class="text-gray-800">维护社区和谐氛围</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">管理团队</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="team-member bg-gray-50 p-6 rounded-lg shadow-md text-center">
+                    <img src="https://q.qlogo.cn/headimg_dl?dst_uin=2156199268&spec=640&img_type=jpg" loading="lazy" class="w-32 h-32 rounded-full mx-auto mb-4 border-2 border-blue-600" alt="管理员" />
+                    <h3 class="text-xl font-bold text-gray-900">winter0203</h3>
+                    <p class="text-gray-700">（前)技术支持</p>
+                </div>
+                <div class="team-member bg-gray-50 p-6 rounded-lg shadow-md text-center">
+                    <img src="https://q.qlogo.cn/headimg_dl?dst_uin=1283720592&spec=640&img_type=jpg" loading="lazy" class="w-32 h-32 rounded-full mx-auto mb-4 border-2 border-blue-600" alt="管理员" />
+                    <h3 class="text-xl font-bold text-gray-900">Foull</h3>
+                    <p class="text-gray-700">资金支持</p>
+                </div>
+                <div class="team-member bg-gray-50 p-6 rounded-lg shadow-md text-center">
+                    <img src="https://q.qlogo.cn/headimg_dl?dst_uin=3838262919&spec=640&img_type=jpg" loading="lazy" class="w-32 h-32 rounded-full mx-auto mb-4 border-2 border-blue-600" alt="管理员" />
+                    <h3 class="text-xl font-bold text-gray-900">明镜台</h3>
+                    <p class="text-gray-700">游戏管理员</p>
+                </div>
+                <div class="team-member bg-gray-50 p-6 rounded-lg shadow-md text-center">
+                    <img src="https://q.qlogo.cn/headimg_dl?dst_uin=2446758259&spec=640&img_type=jpg" loading="lazy" class="w-32 h-32 rounded-full mx-auto mb-4 border-2 border-blue-600" alt="管理员" />
+                    <h3 class="text-xl font-bold text-gray-900">Echo500</h3>
+                    <p class="text-gray-700">游戏管理员</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-20 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-16 text-gray-900">常见问题</h2>
+            <div class="space-y-4">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">我是什么都不会的新手可以来玩吗？</h3>
+                    <p class="text-gray-800 leading-relaxed">当然可以！我们欢迎任何友善的玩家，不论新手还是高手</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">这是什么类型的服务器?</h3>
+                    <p class="text-gray-800 leading-relaxed">我们是一个纯净原版生存服，原则上不限制玩家的任何行为(但绝不能作恶)，可以自由发挥创造力</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold mb-2 text-gray-900">服务器需要充值吗？</h3>
+                    <p class="text-gray-800 leading-relaxed">我们是公益服务器，没有充值项目，资金来源于赞助</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <span class="text-2xl font-['Pacifico'] text-blue-400">FrostCraft</span>
+                    <p class="mt-4 text-gray-300">我的世界本就该如此简单</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-white">快速链接</h4>
+                    <ul class="space-y-2">
+                        <li><a href="https://map.orwoe.cn" class="text-gray-300 hover:text-white transition">地图</a></li>
+                        <li><a href="https://plan.orwoe.cn" class="text-gray-300 hover:text-white transition">仪表盘</a></li>
+                        <li><a href="https://d.orwoe.cn" class="text-gray-300 hover:text-white transition">资源站</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-white">联系我们</h4>
+                    <ul class="space-y-2">
+                        <li class="text-gray-300">邮箱：orwoe@foxmail.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-4 text-white">关注我们</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://space.bilibili.com/403423200" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white text-xl" aria-label="B站空间">
+                            <i class="fab fa-bilibili"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2020-2026 FrostCraft服务器. All rights reserved.</p>
+                <div class="mt-2 flex flex-wrap justify-center gap-x-6 gap-y-1.5 text-sm">
+                    <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition">赣ICP备2025052855号</a>
+                    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=36072702000266" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition inline-flex items-center gap-1.5">
+                        <img src="https://beian.mps.gov.cn/img/logo01.dd7ff50e.png" alt="公安备案图标" class="w-4 h-4 inline-block" /> 赣公网安备 36072702000266号
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="backToTop" class="fixed bottom-8 right-8 bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center opacity-0 transition-opacity duration-300 hover:bg-blue-700 focus:outline-none z-50" aria-label="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <audio id="bgMusic" loop preload="auto" src="./music/Minecraft.mp3"></audio>
+    <button id="musicControl" class="fixed bottom-24 right-8 bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 focus:outline-none z-50" aria-label="切换背景音乐">
+        <i class="fas fa-music text-xl"></i>
+        <span class="music-tooltip">点击播放音乐</span>
+    </button>
+
+    <script src="script.js"></script>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [{
+                "@type": "Question",
+                "name": "我是什么都不会的新手可以来玩吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "当然可以！我们欢迎任何友善的玩家，不论新手还是高手"
+                }
+            }, {
+                "@type": "Question",
+                "name": "这是什么类型的服务器?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "我们是一个纯净原版生存服，原则上不限制玩家的任何行为(但绝不能作恶)，可以自由发挥创造力!"
+                }
+            }, {
+                "@type": "Question",
+                "name": "服务器需要充值吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "我们是公益服务器，没有充值项目，资金来源于赞助"
+                }
+            }]
+        }
+    </script>
+</body>
+</html>

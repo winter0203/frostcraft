@@ -342,29 +342,6 @@
         });
     }
 
-    function tryAutoPlay() {
-        audio.play().then(function() {
-            updateUI(true);
-            userInteracted = true;
-        }).catch(function() {
-            updateUI(false);
-            var resumeOnInteraction = function() {
-                if (!userInteracted && audio.paused) {
-                    audio.play().then(function() {
-                        updateUI(true);
-                        userInteracted = true;
-                    }).catch(function() {});
-                }
-                document.removeEventListener('click', resumeOnInteraction);
-                document.removeEventListener('touchstart', resumeOnInteraction);
-                document.removeEventListener('keydown', resumeOnInteraction);
-            };
-            document.addEventListener('click', resumeOnInteraction);
-            document.addEventListener('touchstart', resumeOnInteraction);
-            document.addEventListener('keydown', resumeOnInteraction);
-        });
-    }
-
     var wasPlayingBeforeHidden = false;
     document.addEventListener('visibilitychange', function() {
         if (document.hidden) {
@@ -381,8 +358,6 @@
             }
         }
     });
-
-    window.addEventListener('load', tryAutoPlay);
 
 
     // ============================================================

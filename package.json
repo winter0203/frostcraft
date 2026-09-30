@@ -1,0 +1,17 @@
+{
+  "name": "frostcraft-website",
+  "version": "1.0.0",
+  "description": "FrostCraft 官网静态站 - https://www.orwoe.cn",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i src/tailwind-input.css -o style.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/winter0203/frostcraft.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

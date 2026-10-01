@@ -6,7 +6,7 @@
     // ============================================================
     const SERVER_HOST = "mc233.xin";
     // 自建状态接口（mcstatus.php 需与 index.html 同目录部署），返回格式与 mcsrvstat.us 兼容
-    const API_URL = "./mcstatus.php";
+    const API_URL = "/mcstatus"; // Pages Functions 同源接口（functions/mcstatus.js）
     const statusContent = document.getElementById('statusContent');
     const lastUpdateSpan = document.getElementById('lastUpdateTime');
     const manualBtn = document.getElementById('manualRefreshBtn');
@@ -190,7 +190,7 @@
             const timeoutId = setTimeout(function() {
                 controller.abort();
             }, 8000);
-            const response = await fetch(API_URL, { signal: controller.signal });
+            const response = await fetch(API_URL, { signal: controller.signal, cache: "no-store" });
             clearTimeout(timeoutId);
             const endTime = performance.now();
             pingTime = Math.round(endTime - startTime);

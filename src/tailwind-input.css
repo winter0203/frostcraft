@@ -313,6 +313,7 @@ body.menu-open-state {
     }
     .hero-section {
         min-height: 760px;
+        background-image: url('./img/banner-1280.webp') !important;
         background-position: 45% center !important;
     }
     .hero-section::before {
@@ -379,5 +380,24 @@ body.menu-open-state {
         overflow: hidden;
         position: fixed;
         width: 100%;
+    }
+}
+
+/* ===== 内联 SVG 图标 ===== */
+.icon-inline {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.125em;
+    flex-shrink: 0;
+}
+
+/* ===== 图标旋转（刷新按钮） ===== */
+.spin {
+    animation: iconSpin 1.2s linear infinite;
+}
+@keyframes iconSpin {
+    to {
+        transform: rotate(360deg);
     }
 }

@@ -19,11 +19,12 @@
 
     function escapeHtml(str) {
         if (!str) return '';
-        return str.replace(/[&<>]/g, function(m) {
+        return str.replace(/[&<>"']/g, function(m) {
             if (m === '&') return '&amp;';
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
-            return m;
+            if (m === '"') return '&quot;';
+            return '&#39;';
         });
     }
 
@@ -51,13 +52,13 @@
                 const playerNames = showPlayers.map(function(p) { return (p && p.name) ? p.name : String(p); }).join('、');
                 const moreHint = players.list.length > 6 ? ` 等${players.list.length}人` : '';
                 playersListHtml =
-                    `<div class="mt-3 pt-3 border-t border-gray-300"><span class="text-xs text-gray-600"><i class="fas fa-user-friends"></i> 在线玩家：</span><span class="text-sm text-gray-800 font-medium">${escapeHtml(playerNames)}${moreHint}</span></div>`;
+                    `<div class="mt-3 pt-3 border-t border-gray-300"><span class="text-xs text-gray-600"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> 在线玩家：</span><span class="text-sm text-gray-800 font-medium">${escapeHtml(playerNames)}${moreHint}</span></div>`;
             } else if (onlineCount > 0) {
                 playersListHtml =
-                    `<div class="mt-3 pt-3 border-t border-gray-300"><span class="text-xs text-gray-600"><i class="fas fa-user-friends"></i> 当前有 ${onlineCount} 位冒险家在线，但未获取到具体名单。</span></div>`;
+                    `<div class="mt-3 pt-3 border-t border-gray-300"><span class="text-xs text-gray-600"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> 当前有 ${onlineCount} 位冒险家在线，但未获取到具体名单。</span></div>`;
             } else {
                 playersListHtml =
-                    `<div class="mt-3 pt-3 border-t border-gray-300"><span class="text-xs text-gray-500"><i class="fas fa-bed"></i> 暂时没有玩家在线，快成为第一个上线的人吧~</span></div>`;
+                    `<div class="mt-3 pt-3 border-t border-gray-300"><span class="text-xs text-gray-500"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg> 暂时没有玩家在线，快成为第一个上线的人吧~</span></div>`;
             }
             const pingDisplay = (pingMs !== null && pingMs !== undefined) ? `${pingMs} ms` : '未知';
             const html = `
@@ -70,24 +71,24 @@
                                 </span>
                                 <span class="font-bold text-green-700 text-lg">● 服务器在线</span>
                             </div>
-                            <div class="text-sm bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">延迟 ${pingDisplay}</div>
+                            <div class="text-sm bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">接口响应 ${pingDisplay}</div>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <div class="bg-white rounded-xl p-3 shadow-sm border border-gray-200">
-                                <div class="text-xs text-gray-600 mb-1"><i class="fas fa-users"></i> 当前在线</div>
+                                <div class="text-xs text-gray-600 mb-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> 当前在线</div>
                                 <div class="text-3xl font-bold text-blue-600">${onlineCount}<span class="text-base text-gray-500">/${maxPlayers}</span></div>
                             </div>
                             <div class="bg-white rounded-xl p-3 shadow-sm border border-gray-200">
-                                <div class="text-xs text-gray-600 mb-1"><i class="fab fa-java"></i> 游戏版本</div>
+                                <div class="text-xs text-gray-600 mb-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg> 游戏版本</div>
                                 <div class="font-mono text-sm font-semibold text-gray-800 break-words">${escapeHtml(version)}</div>
                             </div>
                             <div class="bg-white rounded-xl p-3 shadow-sm border border-gray-200">
-                                <div class="text-xs text-gray-600 mb-1"><i class="fas fa-tachometer-alt"></i> 状态检测</div>
-                                <div class="text-sm text-green-700 font-medium"><i class="fas fa-check-circle"></i> 可正常连接</div>
+                                <div class="text-xs text-gray-600 mb-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M12 14l4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg> 状态检测</div>
+                                <div class="text-sm text-green-700 font-medium"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 可正常连接</div>
                             </div>
                         </div>
                         <div class="bg-white rounded-lg p-3 border border-gray-200">
-                            <div class="text-xs text-gray-600 mb-1"><i class="fas fa-scroll"></i> 服务器描述 (MOTD)</div>
+                            <div class="text-xs text-gray-600 mb-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> 服务器描述 (MOTD)</div>
                             <div class="text-gray-800 font-medium">${escapeHtml(motdText)}</div>
                         </div>
                         ${playersListHtml}
@@ -117,7 +118,7 @@
         }
         if (lastUpdateSpan) {
             const now = new Date();
-            lastUpdateSpan.innerHTML = `<i class="far fa-clock"></i> 最近更新: ${formatTime(now)}`;
+            lastUpdateSpan.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 最近更新: ${formatTime(now)}`;
         }
     }
 
@@ -125,12 +126,12 @@
         if (!statusContent) return;
         const html = `
                 <div class="flex flex-col items-center justify-center py-8 space-y-3">
-                    <i class="fas fa-exclamation-triangle text-4xl text-amber-600"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline text-4xl text-amber-600"  aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     <div class="text-center">
                         <div class="text-lg font-semibold text-gray-800">状态获取失败</div>
                         <div class="text-gray-700 text-sm mt-1">${escapeHtml(message)}</div>
                         <button id="retryFromErrorBtn" class="mt-4 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm hover:bg-blue-200 transition font-medium shadow">
-                            <i class="fas fa-redo-alt"></i> 点击重试
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg> 点击重试
                         </button>
                     </div>
                 </div>
@@ -143,7 +144,7 @@
             });
         }
         if (lastUpdateSpan) {
-            lastUpdateSpan.innerHTML = `<i class="far fa-clock"></i> 获取失败，待重试`;
+            lastUpdateSpan.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 获取失败，待重试`;
         }
     }
 
@@ -168,7 +169,7 @@
     async function fetchServerStatus(isManual) {
         if (isFetching) return;
         isFetching = true;
-        if (refreshIcon) refreshIcon.classList.add('fa-spin');
+        if (refreshIcon) refreshIcon.classList.add('spin');
         if (isManual) {
             showSkeleton();
         } else {
@@ -195,11 +196,11 @@
             if (error.name === 'AbortError') errorMsg = "请求超时，服务器状态API响应较慢";
             showError(errorMsg);
             if (lastUpdateSpan) {
-                lastUpdateSpan.innerHTML = `<i class="far fa-clock"></i> 请求失败，稍后自动重试`;
+                lastUpdateSpan.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 请求失败，稍后自动重试`;
             }
         } finally {
             isFetching = false;
-            if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+            if (refreshIcon) refreshIcon.classList.remove('spin');
         }
     }
 
@@ -251,7 +252,7 @@
             try {
                 await navigator.clipboard.writeText(ipText.innerText);
                 var originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> 已复制';
+                copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline mr-1"  aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> 已复制';
                 setTimeout(function() {
                     copyBtn.innerHTML = originalText;
                 }, 2000);
@@ -265,7 +266,7 @@
                     document.execCommand('copy');
                     window.getSelection().removeAllRanges();
                     var originalText2 = copyBtn.innerHTML;
-                    copyBtn.innerHTML = '<i class="fas fa-check mr-1"></i> 已复制';
+                    copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline mr-1"  aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> 已复制';
                     setTimeout(function() {
                         copyBtn.innerHTML = originalText2;
                     }, 2000);
@@ -302,7 +303,6 @@
     // ============================================================
     var audio = document.getElementById('bgMusic');
     var musicBtn = document.getElementById('musicControl');
-    var icon = musicBtn ? musicBtn.querySelector('.fa-music') : null;
     var tooltip = musicBtn ? musicBtn.querySelector('.music-tooltip') : null;
     var isPlaying = false;
     var userInteracted = false;
@@ -311,11 +311,9 @@
         isPlaying = playing;
         if (playing) {
             musicBtn.classList.add('playing');
-            if (icon) icon.className = 'fas fa-music text-xl';
             if (tooltip) tooltip.textContent = '点击暂停音乐';
         } else {
             musicBtn.classList.remove('playing');
-            if (icon) icon.className = 'fas fa-music text-xl';
             if (tooltip) tooltip.textContent = '点击播放音乐';
         }
     }
@@ -365,7 +363,8 @@
     // ============================================================
     var mobileMenu = document.getElementById('mobileMenu');
     var menuToggle = document.getElementById('menuToggle');
-    var menuIcon = document.getElementById('menuIcon');
+    var menuIconBars = document.getElementById('menuIconBars');
+    var menuIconClose = document.getElementById('menuIconClose');
     var menuCloseBtn = document.getElementById('menuCloseBtn');
     var menuOverlay = document.getElementById('menuOverlay');
     var menuLinks = document.querySelectorAll('#mobileMenu .menu-links a');
@@ -378,7 +377,8 @@
     function openMenu() {
         if (isMenuOpen) return;
         isMenuOpen = true;
-        menuIcon.className = 'fas fa-times';
+        menuIconBars.style.display = 'none';
+        menuIconClose.style.display = '';
         mobileMenu.classList.add('menu-open');
         bodyEl.classList.add('menu-open-state');
         mobileMenu.setAttribute('aria-hidden', 'false');
@@ -392,7 +392,8 @@
     function closeMenu() {
         if (!isMenuOpen) return;
         isMenuOpen = false;
-        menuIcon.className = 'fas fa-bars';
+        menuIconBars.style.display = '';
+        menuIconClose.style.display = 'none';
         mobileMenu.classList.remove('menu-open');
         bodyEl.classList.remove('menu-open-state');
         mobileMenu.setAttribute('aria-hidden', 'true');
@@ -400,7 +401,7 @@
         if (musicControl) musicControl.style.pointerEvents = 'auto';
         if (menuCopyBtn.classList.contains('copied')) {
             menuCopyBtn.classList.remove('copied');
-            menuCopyBtn.innerHTML = '<i class="far fa-copy"></i> 复制服务器地址';
+            menuCopyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 复制服务器地址';
         }
         menuToggle.focus();
     }
@@ -447,7 +448,7 @@
                 await navigator.clipboard.writeText(ipText.innerText.trim());
                 var originalHtml = menuCopyBtn.innerHTML;
                 menuCopyBtn.classList.add('copied');
-                menuCopyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                menuCopyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> 已复制';
                 setTimeout(function() {
                     if (menuCopyBtn.classList.contains('copied')) {
                         menuCopyBtn.classList.remove('copied');
@@ -467,7 +468,7 @@
                     window.getSelection().removeAllRanges();
                     var originalHtml2 = menuCopyBtn.innerHTML;
                     menuCopyBtn.classList.add('copied');
-                    menuCopyBtn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                    menuCopyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> 已复制';
                     setTimeout(function() {
                         if (menuCopyBtn.classList.contains('copied')) {
                             menuCopyBtn.classList.remove('copied');

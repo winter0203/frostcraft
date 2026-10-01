@@ -5,7 +5,8 @@
     //  1. 服务器状态检测
     // ============================================================
     const SERVER_HOST = "mc233.xin";
-    const API_URL = `https://api.mcsrvstat.us/3/${SERVER_HOST}`;
+    // 自建状态接口（mcstatus.php 需与 index.html 同目录部署），返回格式与 mcsrvstat.us 兼容
+    const API_URL = "./mcstatus.php";
     const statusContent = document.getElementById('statusContent');
     const lastUpdateSpan = document.getElementById('lastUpdateTime');
     const manualBtn = document.getElementById('manualRefreshBtn');
@@ -60,7 +61,13 @@
                 playersListHtml =
                     `<div class="mt-3 pt-3 border-t border-gray-300"><span class="text-xs text-gray-500"><svg width="1em" height="1em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-inline"  aria-hidden="true"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg> 暂时没有玩家在线，快成为第一个上线的人吧~</span></div>`;
             }
-            const pingDisplay = (pingMs !== null && pingMs !== undefined) ? `${pingMs} ms` : '未知';
+            // 优先展示服务器端实测的真实网络延迟（mcstatus.php 的 ping_ms），
+            // 自建接口不可用时回退为前端请求耗时（接口响应）
+            const realPing = (data.ping_ms !== undefined && data.ping_ms !== null) ? Math.round(data.ping_ms) : null;
+            const pingLabel = realPing !== null ? '游戏服延迟' : '接口响应';
+            const pingDisplay = realPing !== null
+                ? `${realPing} ms`
+                : ((pingMs !== null && pingMs !== undefined) ? `${pingMs} ms` : '未知');
             const html = `
                     <div class="space-y-4">
                         <div class="flex items-center justify-between flex-wrap gap-3">
@@ -71,7 +78,7 @@
                                 </span>
                                 <span class="font-bold text-green-700 text-lg">● 服务器在线</span>
                             </div>
-                            <div class="text-sm bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">接口响应 ${pingDisplay}</div>
+                            <div class="text-sm bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">${pingLabel} ${pingDisplay}</div>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <div class="bg-white rounded-xl p-3 shadow-sm border border-gray-200">

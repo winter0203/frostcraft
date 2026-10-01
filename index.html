@@ -7,14 +7,9 @@
     <title>FrostCraft丨纯净生存服务器</title>
     <link rel="icon" href="./img/icon.png" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" as="style" />
     <link rel="preload" href="./img/banner.webp" as="image" />
 
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" href="style.css" />
 </head>
@@ -147,7 +142,7 @@
                 <i class="fas fa-chart-line text-blue-600 mr-2"></i>
                 服务器实时状态
             </h2>
-            <p class="text-center text-gray-700 mb-10">这个板块bug太多,正在考虑删除-_-</p>
+            <p class="text-center text-gray-700 mb-10">实时监测服务器在线人数、版本与延迟</p>
             <div class="max-w-3xl mx-auto">
                 <div id="statusCard" class="status-card bg-gray-50 rounded-2xl shadow-xl overflow-hidden border border-gray-300">
                     <div class="bg-white px-6 py-4 border-b border-gray-300 flex flex-wrap justify-between items-center gap-3">
@@ -187,7 +182,7 @@
                         <i class="fas fa-server text-blue-600 text-2xl"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-2 text-gray-900">高性能服务器</h3>
-                    <p class="text-gray-700 leading-relaxed">采用英特尔® 酷睿™ i7-11700K 处理器，确保游戏流畅运行，支持同时在线 114514 玩家</p>
+                    <p class="text-gray-700 leading-relaxed">采用英特尔® 酷睿™ i7-11700K 处理器，稳定承载数十名玩家同服在线，确保游戏流畅运行</p>
                 </div>
                 <div class="text-center">
                     <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
@@ -323,7 +318,7 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <audio id="bgMusic" loop preload="auto" src="./music/Minecraft.mp3"></audio>
+    <audio id="bgMusic" loop preload="metadata" src="./music/Minecraft.mp3"></audio>
     <button id="musicControl" class="fixed bottom-24 right-8 bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-700 focus:outline-none z-50" aria-label="切换背景音乐">
         <i class="fas fa-music text-xl"></i>
         <span class="music-tooltip">点击播放音乐</span>

@@ -4,7 +4,7 @@
     // ============================================================
     //  1. 服务器状态检测
     // ============================================================
-    const SERVER_HOST = "mc233.xin";
+    const SERVER_HOST = "play.orwoe.cn";
     // 自建状态接口（mcstatus.php 需与 index.html 同目录部署），返回格式与 mcsrvstat.us 兼容
     const API_URL = "/mcstatus"; // Pages Functions 同源接口（functions/mcstatus.js）
     const statusContent = document.getElementById('statusContent');

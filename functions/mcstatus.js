@@ -5,7 +5,7 @@
 
 import { connect } from "cloudflare:sockets";
 
-const SERVER_HOST = "mc233.xin"; // 游戏服务器地址
+const SERVER_HOST = "play.orwoe.cn"; // 游戏服务器地址
 const SERVER_PORT = 25565;       // Java 版端口
 const CACHE_TTL = 90;            // 缓存 90 秒，防止高频请求打爆游戏服务器端口
 

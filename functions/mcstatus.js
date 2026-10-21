@@ -1,6 +1,6 @@
 // functions/mcstatus.js
 // Cloudflare Pages Functions：用 Minecraft Server List Ping 协议直连游戏服务器，
-// 返回真实在线数据 + 真实网络延迟，替代第三方 api.mcsrvstat.us。
+// 返回真实在线数据，替代第三方 api.mcsrvstat.us。
 // Pages 部署时自动检测 functions/ 目录，同源路由 /mcstatus 即本函数，无需额外配置。
 
 import { connect } from "cloudflare:sockets";
@@ -21,7 +21,7 @@ function writeVarInt(num) {
   return bytes;
 }
 
-// 执行 Server List Ping：握手(状态) → 状态请求 → 读 JSON 响应，返回 { data, latency }
+// 执行 Server List Ping：握手(状态) → 状态请求 → 读 JSON 响应，返回 { data }
 async function pingMcServer() {
   const encoder = new TextEncoder();
   const hostBytes = encoder.encode(SERVER_HOST);
@@ -41,7 +41,6 @@ async function pingMcServer() {
   const socket = connect({ hostname: SERVER_HOST, port: SERVER_PORT });
   const writer = socket.writable.getWriter();
   const reader = socket.readable.getReader();
-  const started = Date.now();
 
   // 发送：握手(带长度前缀) + 状态请求
   await writer.write(new Uint8Array([...writeVarInt(handshakePayload.length), ...handshakePayload]));
@@ -77,10 +76,9 @@ async function pingMcServer() {
   const bytes = [];
   for (let i = 0; i < strLen; i++) bytes.push(await readByte());
   const payload = new TextDecoder().decode(new Uint8Array(bytes));
-  const latency = Date.now() - started;
 
   try { writer.close(); } catch (e) { /* 忽略关闭异常 */ }
-  return { data: JSON.parse(payload), latency };
+  return { data: JSON.parse(payload) };
 }
 
 // 递归提取 MOTD 纯文本（兼容深层嵌套的 extra 结构）
@@ -104,13 +102,12 @@ export async function onRequestGet(context) {
   if (cached) return cached;
 
   try {
-    const { data, latency } = await pingMcServer();
+    const { data } = await pingMcServer();
     const motdClean = extractText(data.description)
       .replace(/\u00a7[0-9a-fk-or]/g, "") // 去掉 § 颜色/格式代码
       .trim();
     const result = {
       online: true,
-      ping_ms: latency, // 真实网络延迟（毫秒）
       version: typeof data.version === "object" ? data.version.name : data.version,
       players: {
         online: (data.players && data.players.online) || 0,
@@ -130,7 +127,7 @@ export async function onRequestGet(context) {
   } catch (e) {
     // 失败时返回兼容旧前端的数据结构，前端显示"离线"并回退文案
     return new Response(
-      JSON.stringify({ online: false, ping_ms: null, error: "无法连接游戏服务器: " + e.message }),
+      JSON.stringify({ online: false, error: "无法连接游戏服务器: " + e.message }),
       {
         headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" },
         status: 503,

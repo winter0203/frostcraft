@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8f4">
+  <meta name="description" content="用天气记录心情，记录仅保存在你的浏览器。">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-PTcplc+SJqj9C9wWQc+LUWbry/4XGK9VuizxfLtmy70='; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>情绪天气</title>
+  <style>
+:root{font-family:"PingFang SC","Microsoft YaHei",sans-serif;color:#314b3d;background:#f7f8f4;font-synthesis:none;--muted:#7d887f;--green:#486d55;--line:#e4e8df}
+*{box-sizing:border-box}body{margin:0}a{color:inherit;text-decoration:none}button,textarea{font:inherit}button,a{-webkit-tap-highlight-color:transparent;touch-action:manipulation}button{cursor:pointer}a:focus-visible,button:focus-visible,textarea:focus-visible{outline:2px solid #849e75;outline-offset:4px}
+.app{max-width:480px;margin:0 auto;padding:0 24px}header{height:80px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.brand{font-size:24px;color:#c8a255;display:flex;gap:8px;align-items:center}.brand span{color:#314b3d;font-size:17px;font-weight:600}nav{display:flex;gap:22px;font-size:13px;color:var(--muted)}nav a{padding:10px 0}nav a[aria-current=page]{color:var(--green);box-shadow:0 2px var(--green)}
+main{padding:34px 0 40px}.heading{margin-bottom:28px}.date{font-size:12px;color:var(--muted);margin:0 0 12px}h1{font-size:25px;font-weight:550;line-height:1.4;margin:0}h2{font-size:13px;font-weight:500;margin:0 0 16px}.moods{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px}.mood{min-height:94px;border:1px solid var(--line);border-radius:14px;background:#fffefa;color:#7b847b;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:13px}.mood>span{font-size:29px;line-height:1.2}.mood[aria-pressed=true]{border-color:#809b71;background:#eaf0e3;color:#365739;box-shadow:inset 0 0 0 1px #809b71}
+label{display:block;font-size:13px;margin-bottom:12px}label span{color:#919a8e;margin-left:5px;font-size:11px}textarea{width:100%;min-height:104px;resize:vertical;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fffefa;color:#314b3d;line-height:1.7;font-size:14px}textarea::placeholder{color:#a6afa1}.primary{display:block;width:100%;padding:15px;margin-top:20px;border:0;border-radius:12px;color:white;background:var(--green);font-size:14px}.primary:disabled{background:#bcc8b5;cursor:default}.privacy{text-align:center;font-size:11px;color:#949d8f;margin:23px 0 0}.saved{text-align:center;font-size:12px;color:#7c8d72;margin:13px 0 0}.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.week>div{background:#edf1e7;text-align:center;padding:12px 0;border-radius:9px}.week time{font-size:10px;color:#8c9586}.week span{display:block;font-size:23px;margin-top:9px;height:29px}.entries{margin-top:26px}article{display:flex;gap:15px;border-bottom:1px solid var(--line);padding:20px 0}.entry-icon{font-size:27px;line-height:1.5}article>div{flex:1;min-width:0}.entry-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}.entry-heading h2{margin:0;font-size:14px}article time{font-size:11px;color:#929c8a}article p{font-size:13px;color:#73816d;line-height:1.8;margin:8px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}.empty{font-size:13px;line-height:2;color:#8a9482;padding:30px 0;text-align:center}.empty a{display:block;color:var(--green)}.error{font-size:12px;line-height:1.8;color:#976653}.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#314b3d;color:#fff;padding:12px 22px;border-radius:12px;font-size:13px;max-width:90%;width:max-content;opacity:0;pointer-events:none}.toast.show{opacity:1}
+@media(max-width:350px){.app{padding:0 18px}h1{font-size:23px}.week{gap:4px}.week span{font-size:20px}}
+.community{margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}.community-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}.community-heading h2{font-size:14px;margin:0}.community-heading>span{font-size:11px;color:var(--muted)}.company{font-size:14px;line-height:1.7;margin:18px 0;color:#5d735e}.company strong{font-weight:600;color:var(--green)}.weather-distribution{display:grid;gap:12px}.distribution-row{display:flex;align-items:center;gap:12px;font-size:12px;color:#8b9586}.distribution-label{width:68px;flex-shrink:0}.distribution-label>span{display:inline-block;width:22px;font-size:17px;vertical-align:middle}.distribution-track{height:6px;flex:1;background:#e9ede4;border-radius:6px;overflow:hidden}.distribution-track>span{display:block;height:100%;border-radius:6px}.distribution-count{width:20px;text-align:right;font-variant-numeric:tabular-nums}.same-weather{color:#3e6146;font-weight:600}.community-note{font-size:12px;color:#8a9681;line-height:1.8;margin:18px 0 0}
+/* Interaction polish: only opacity and transforms animate; no layout shifts. */
+:root{font-synthesis:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{scrollbar-gutter:stable}body{min-width:280px;min-height:100dvh}button,textarea{appearance:none}button{min-height:44px}nav a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px}textarea{font-size:16px;transition:border-color 160ms ease,box-shadow 160ms ease}textarea:focus{border-color:#809b71;box-shadow:0 0 0 3px #809b711a;outline:none}main h1:focus{outline:none}.app{padding-bottom:env(safe-area-inset-bottom)}
+.mood{transition:background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease,transform 160ms ease}.mood:active{transform:scale(.96)}.mood>span{transition:transform 200ms cubic-bezier(.2,.8,.3,1)}.mood[aria-pressed=true]>span{transform:translateY(-2px) scale(1.08)}.primary{transition:background-color 160ms ease,transform 160ms ease}.primary:not(:disabled):active{transform:scale(.985)}.privacy{color:#75816e}.date,.community-heading>span{color:#6f7e6b}.mood{color:#65735f}.distribution-row{color:#6f7e69}.community-note{color:#6f7e69}.distribution-track>span{transform-origin:left center}.toast{bottom:max(24px,env(safe-area-inset-bottom));transform:translate(-50%,8px);transition:opacity 180ms ease,transform 180ms ease;z-index:10;line-height:1.6}.toast.show{transform:translate(-50%,0)}.load-more{display:block;margin:24px auto 0;border:1px solid var(--line);border-radius:10px;padding:10px 22px;background:transparent;color:var(--green);font:inherit;font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}.enter{animation:page-enter 220ms ease-out}.reveal{animation:page-enter 260ms ease-out}.reveal .distribution-track>span{animation:bar-grow 400ms cubic-bezier(.2,.7,.3,1)}
+@keyframes page-enter{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bar-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(hover:hover){.mood:hover{border-color:#94ab86;background:#f0f4e9}.primary:not(:disabled):hover{background:#3c6048}nav a:hover{color:var(--green)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+  <div class="app">
+    <header><a class="brand" href="#today">☀ <span>情绪天气</span></a><nav aria-label="主导航"><a href="#today" data-page="today">打卡</a><a href="#sky" data-page="sky">历史</a></nav></header>
+    <main id="main"></main>
+  </div>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="error">请开启 JavaScript 以使用情绪打卡。所有记录仅保存在本地。</p></noscript>
+  <script>
+(() => {
+'use strict';
+const moods = [
+  { id: 'sun', name: '晴天', icon: '☀', color: '#e9ad47', text: '心里有阳光，想把快乐收藏。' },
+  { id: 'cloud', name: '多云', icon: '⛅', color: '#a7bdaa', text: '有一点起伏，也有一点轻松。' },
+  { id: 'overcast', name: '阴天', icon: '☁', color: '#9caeb8', text: '暂时没有阳光，也没有关系。' },
+  { id: 'drizzle', name: '小雨', icon: '🌦', color: '#87aeb2', text: '允许自己慢一点，照顾此刻的心情。' },
+  { id: 'rain', name: '大雨', icon: '🌧', color: '#7b94b5', text: '今天有些难熬，先给自己一点空间。' },
+  { id: 'storm', name: '雷暴', icon: '⛈', color: '#928ba6', text: '不必独自撑着，可以找信任的人聊聊。' }
+];
+function dateKey(date = new Date()) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+function parseRecords(raw) {
+  const parsed = JSON.parse(raw || '[]');
+  if (!Array.isArray(parsed)) throw new Error('Invalid records');
+  const seen = new Set();
+  return parsed.filter(r => {
+    if (!r || !isValidDate(r.date) || !moods.some(m => m.id === r.mood) || typeof r.note !== 'string' || seen.has(r.date)) return false;
+    seen.add(r.date); return true;
+  }).map(r => ({ date: r.date, mood: r.mood, note: r.note.slice(0, 140) })).sort((a,b) => b.date.localeCompare(a.date));
+}
+function saveRecord(records, record) {
+  if (parseRecords(JSON.stringify([record])).length !== 1) throw new Error('Invalid record');
+  return parseRecords(JSON.stringify([record, ...records.filter(r => r.date !== record.date)]));
+}
+function isValidDate(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(0);
+  date.setFullYear(year, month - 1, day);
+  return dateKey(date) === value;
+}
+function daysFor(count, now = new Date()) {
+  return Array.from({length: count}, (_, i) => {
+    const day = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    day.setDate(day.getDate() - count + 1 + i); return dateKey(day);
+  });
+}
+
+const KEY = 'mood-weather-v1';
+const PAGE_SIZE = 30;
+const main = document.querySelector('main');
+const toastElement = document.querySelector('.toast');
+const weather = id => moods.find(m => m.id === id);
+const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// Presentation fixtures, intentionally independent of private check-ins.
+const communityCounts = Object.freeze({ sun: 28, cloud: 31, overcast: 36, drizzle: 19, rain: 10, storm: 4 });
+const communityTotal = Object.values(communityCounts).reduce((sum, count) => sum + count, 0);
+let records = [], storageError = '', draft = null, historyLimit = PAGE_SIZE;
+let activeDay = dateKey(), toastTimer;
+
+function readRecords() {
+  const raw = localStorage.getItem(KEY);
+  const parsed = parseRecords(raw);
+  // Prevent a partial recovery from silently overwriting a damaged store.
+  if (raw && parsed.length !== JSON.parse(raw).length) throw new Error('Damaged store');
+  return parsed;
+}
+function refreshRecords() {
+  try { records = readRecords(); storageError = ''; }
+  catch { storageError = '无法读取本地记录，已暂停保存。请检查浏览器存储设置。'; }
+}
+function toast(text) {
+  clearTimeout(toastTimer);
+  toastElement.textContent = text;
+  toastElement.classList.add('show');
+  toastTimer = setTimeout(() => toastElement.classList.remove('show'), 2400);
+}
+function communityView(moodId) {
+  return `<section class="community" aria-labelledby="community-title">
+    <div class="community-heading"><h2 id="community-title">大家的天气</h2><span>最近 7 天 · ${communityTotal} 位同学</span></div>
+    <p class="company">有 <strong>${communityCounts[moodId]}</strong> 位同学也选择了${weather(moodId).name}</p>
+    <div class="weather-distribution">${moods.map(m => `<div class="distribution-row ${m.id === moodId ? 'same-weather' : ''}"><span class="distribution-label"><span aria-hidden="true">${m.icon}</span> ${m.name}</span><span class="distribution-track" aria-hidden="true"><span style="width:${communityCounts[m.id] / communityTotal * 100}%;background:${m.color}"></span></span><span class="distribution-count">${communityCounts[m.id]}<span class="sr-only"> 位同学</span></span></div>`).join('')}</div>
+    <p class="community-note">你不是一个人，每一种天气都很正常。</p>
+  </section>`;
+}
+function todayView() {
+  const current = records.find(r => r.date === activeDay);
+  if (!draft || draft.date !== activeDay) draft = { date: activeDay, mood: current?.mood || null, note: current?.note || '', dirty: false };
+  return `<div class="heading"><p class="date">${new Date().toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'long' })}</p><h1 tabindex="-1">今天是什么天气？</h1></div>
+    <form id="checkin">
+      <div class="moods" role="group" aria-label="今日情绪">${moods.map(m => `<button type="button" class="mood" data-mood="${m.id}" aria-pressed="${draft.mood === m.id}"><span aria-hidden="true">${m.icon}</span>${m.name}</button>`).join('')}</div>
+      <label for="note">留一句话 <span>选填</span></label>
+      <textarea id="note" maxlength="140" rows="3" placeholder="记录一下此刻的心情……">${escape(draft.note)}</textarea>
+      <button class="primary" type="submit" ${!draft.mood || storageError ? 'disabled' : ''}>${current ? '更新今天的记录' : '保存今天的心情'}</button>
+      ${current ? '<p class="saved">今天已记录，可以修改</p>' : ''}
+    </form>${current ? communityView(current.mood) : ''}<p class="privacy">你的记录仅保存在此浏览器</p>`;
+}
+function historyView() {
+  const byDate = new Map(records.map(r => [r.date, r]));
+  return `<div class="heading"><h1 tabindex="-1">我的记录</h1></div>
+    <section aria-label="最近七天的情绪"><h2>最近 7 天</h2><div class="week">${daysFor(7).map(day => {
+      const record = byDate.get(day), mood = record && weather(record.mood);
+      return `<div aria-label="${day} ${mood ? mood.name : '未记录'}"><time datetime="${day}">${Number(day.slice(5, 7))}/${Number(day.slice(8))}</time><span aria-hidden="true">${mood ? mood.icon : '·'}</span></div>`;
+    }).join('')}</div></section>
+    <section class="entries" aria-label="历史记录">${records.length ? records.slice(0, historyLimit).map(r => `<article><span class="entry-icon" aria-hidden="true">${weather(r.mood).icon}</span><div><div class="entry-heading"><h2>${weather(r.mood).name}</h2><time datetime="${r.date}">${r.date}</time></div>${r.note ? `<p>${escape(r.note)}</p>` : ''}</div></article>`).join('') : '<p class="empty">还没有记录。<a href="#today">去记下今天的心情</a></p>'}</section>
+    ${records.length > historyLimit ? '<button type="button" class="load-more">更早的记录</button>' : ''}`;
+}
+function render({ focus = false, animate = false } = {}) {
+  const history = location.hash === '#sky';
+  document.querySelectorAll('[data-page]').forEach(a => {
+    const active = a.dataset.page === (history ? 'sky' : 'today');
+    if (active) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+  });
+  main.innerHTML = (storageError ? `<p role="alert" class="error">${storageError}</p>` : '') + (history ? historyView() : todayView());
+  main.classList.toggle('enter', animate);
+  if (focus) main.querySelector('h1').focus({ preventScroll: true });
+}
+main.addEventListener('click', e => {
+  const button = e.target.closest('[data-mood]');
+  if (button && draft) {
+    draft.mood = button.dataset.mood; draft.dirty = true;
+    main.querySelectorAll('[data-mood]').forEach(el => el.setAttribute('aria-pressed', String(el === button)));
+    main.querySelector('.primary').disabled = !!storageError;
+  }
+  if (e.target.closest('.load-more')) {
+    const previousCount = historyLimit;
+    historyLimit += PAGE_SIZE; render();
+    const firstNew = main.querySelectorAll('article')[previousCount];
+    if (firstNew) { firstNew.tabIndex = -1; firstNew.focus({ preventScroll: true }); }
+  }
+});
+main.addEventListener('input', e => {
+  if (e.target.id === 'note' && draft) { draft.note = e.target.value; draft.dirty = true; }
+});
+main.addEventListener('submit', e => {
+  if (e.target.id !== 'checkin') return;
+  e.preventDefault();
+  if (!draft?.mood || storageError) return;
+  if (dateKey() !== activeDay) {
+    activeDay = dateKey(); draft = { ...draft, date: activeDay };
+    render(); toast('已跨天，请确认今天的心情后再保存'); return;
+  }
+  try {
+    // Re-read before writing to preserve other dates changed in another tab.
+    const latest = readRecords();
+    const next = saveRecord(latest, { date: activeDay, mood: draft.mood, note: draft.note.trim().slice(0, 140) });
+    localStorage.setItem(KEY, JSON.stringify(next));
+    records = next; draft = null; render();
+    main.querySelector('.primary').focus({ preventScroll: true });
+    main.querySelector('.community')?.classList.add('reveal');
+    toast('已保存');
+  } catch { toast('保存失败，原有记录未改动。请检查浏览器存储。'); }
+});
+window.addEventListener('hashchange', () => { render({ focus: true, animate: true }); window.scrollTo(0, 0); });
+main.addEventListener('animationend', e => { if (e.target === main) main.classList.remove('enter'); });
+window.addEventListener('storage', e => {
+  if (e.key !== KEY && e.key !== null) return;
+  refreshRecords();
+  if (!draft?.dirty) draft = null;
+  if (location.hash === '#sky' || !draft?.dirty) render();
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return;
+  const nextDay = dateKey();
+  if (nextDay !== activeDay) {
+    activeDay = nextDay;
+    if (draft?.dirty) { draft.date = nextDay; toast('新的一天，未保存的文字仍为你保留'); }
+    else draft = null;
+    refreshRecords(); render();
+  }
+});
+refreshRecords();
+render({ animate: true });
+
+})();
+</script>
+</body>
+</html>
